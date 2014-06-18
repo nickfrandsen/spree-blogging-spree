@@ -92,6 +92,27 @@
   <%= form.error_message_on :body %>
 <% end %>
 
+
+<%= form.field_container :blog_entry_pinterest_images do %>
+  <%= form.label :pinterest_images %><br />
+    <% if session[:blog_entry_id] == @blog_entry.id %>
+      <%= link_to 'stop collecting images', set_blog_to_add_images_to_admin_blog_entries_path(blog_entry_id: false), method: :post, class: 'button' %><br />
+    <% else %>
+      <%= link_to 'start collecting images', set_blog_to_add_images_to_admin_blog_entries_path(blog_entry_id: @blog_entry.id), method: :post, class: 'button' %><br />
+    <% end %>
+  <%= form.fields_for :blog_entry_pinterest_images do |f| %>
+    <div class="blog_entry_image_thumbnail">
+      <%= image_tag f.object.pinterest_image.image.url, width: '50' %><br />
+      <%= f.label :caption %><br />
+      <%= f.text_field :caption %><br />
+      <%= f.label :description %><br />
+      <%= f.text_area :description %>
+    </div>
+    <hr>
+  <% end %>
+<% end %>
+
+
 <%= form.field_container :summary do %>
   <%= form.label :summary %><br />
   <%= form.text_area :summary, {:cols => 60, :rows => 4, :class => 'fullwidth', :id => 'blog_entry_summary'} %>

@@ -1,6 +1,19 @@
 class Spree::Admin::BlogEntriesController < Spree::Admin::ResourceController
   helper 'spree/blog_entries'
 
+  def set_blog_to_add_images_to
+    session[:blog_entry_id] = if Spree::BlogEntry.where(id: params[:blog_entry_id]).present?
+      params[:blog_entry_id]
+    else
+      nil
+    end
+    redirect_to :back
+  end
+
+  def add_pinterest_image
+    @blog_entry.pinterest_images << PinterestImage.find(params[:pinterest_image_id])
+    redirect_to :back
+  end
 
   private
 
